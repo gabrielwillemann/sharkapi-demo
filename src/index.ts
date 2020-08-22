@@ -1,7 +1,7 @@
 import * as express from 'express';
 import * as bodyParser from 'body-parser';
 import { Sequelize, DataTypes } from 'sequelize';
-import * as sharkApi from 'sharkapi';
+import { SharkApi } from 'sharkapi';
 
 let app;
 let sequelize;
@@ -43,6 +43,8 @@ async function startExpress() {
 }
 
 async function startSharkApi() {
-  sharkApi.express(app);
-  sharkApi.sequelizeModel(sequelize.models.Person);
+  let sharkApi = new SharkApi();
+  sharkApi.restApiServer(app);
+  sharkApi.entitySequelize(sequelize.models.Person);
+  sharkApi.createResources();
 }
