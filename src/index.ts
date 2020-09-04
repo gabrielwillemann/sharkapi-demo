@@ -55,79 +55,17 @@ async function startExpress() {
 
 async function startSharkApi() {
   let sharkApi = new SharkApi();
+
   sharkApi.restApiServer(app);
   sharkApi.entitySequelize(sequelize.models.City);
-  sharkApi.entitySequelize(sequelize.models.Person, {
-    hooks: [
-      {
-        trigger: 'page',
-        match: 'limit',
-        fn({ context, name, value }) {
-          context.limit = parseInt(value);
-          // context.offset = ;
-        },
-      },
-    ],
-  });
-
+  sharkApi.entitySequelize(sequelize.models.Person);
   sharkApi.entitySequelize(sequelize.models.Color);
-
   sharkApi.entitySequelize(sequelize.models.Car, {
-    hooks: [
-      // {
-      //   trigger: 'page',
-      //   match: 'limit',
-      //   fn({ context, name, value }) {
-      //     console.log('aaaaaaaaaaaaa', context, name, value);
-      //   },
-      // },
-      // {
-      //   trigger: 'page',
-      //   match: 'offset',
-      //   fn() {},
-      // },
-      // {
-      //   trigger: 'page',
-      //   match: 'new-limit',
-      //   fn() {},
-      // },
-      // {
-      //   trigger: 'filter',
-      //   match: 'person_name',
-      //   fn({ context, name, value }) {
-      //     context.include = context.include || [];
-      //     context.include.push({
-      //       model: sequelize.models.Person,
-      //       where: { name: { [Op.like]: `%${value}%` } },
-      //     });
-      //     return context;
-      //   },
-      // },
-      // {
-      //   trigger: 'sort',
-      //   match: 'person_name',
-      //   fn({ context, name, value }) {
-      //     context.order = context.order || [];
-      //     context.order.push([sequelize.models.Person, 'name', value]);
-      //     context.include = context.include || [];
-      //     context.include.push({ model: sequelize.models.Person });
-      //     return context;
-      //   },
-      // },
-      // {
-      //   trigger: 'relationship',
-      //   match: 'person_with_city',
-      //   fn({ context, name, value }) {
-      //     context.include = context.include || [];
-      //     context.include.push({
-      //       model: sequelize.models.Person,
-      //       include: [{ model: sequelize.models.City }],
-      //     });
-      //     return context;
-      //   },
-      // },
-    ],
+    // actions: ['index', 'show', 'create', 'update', 'delete'],
+    actions: ['index'],
   });
+
+  sharkApi.options = {};
 
   sharkApi.createResources();
 

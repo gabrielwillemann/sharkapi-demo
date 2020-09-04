@@ -1,0 +1,82 @@
+hooks: [
+  // {
+  //   trigger: 'page',
+  //   match: 'limit',
+  //   fn({ context, name, value }) {},
+  // },
+  // {
+  //   trigger: 'page',
+  //   match: 'offset',
+  //   fn() {},
+  // },
+  // {
+  //   trigger: 'page',
+  //   match: 'new-limit',
+  //   fn() {},
+  // },
+  // {
+  //   trigger: 'filter',
+  //   match: 'person_name',
+  //   fn({ context, name, value }) {
+  //     context.include = context.include || [];
+  //     context.include.push({
+  //       model: sequelize.models.Person,
+  //       where: { name: { [Op.like]: `%${value}%` } },
+  //     });
+  //     return context;
+  //   },
+  // },
+  // {
+  //   trigger: 'sort',
+  //   match: 'person_name',
+  //   fn({ context, name, value }) {
+  //     context.order = context.order || [];
+  //     context.order.push([sequelize.models.Person, 'name', value]);
+  //     context.include = context.include || [];
+  //     context.include.push({ model: sequelize.models.Person });
+  //     return context;
+  //   },
+  // },
+  // {
+  //   trigger: 'relationship',
+  //   match: 'person_with_city',
+  //   fn({ context, name, value }) {
+  //     context.include = context.include || [];
+  //     context.include.push({
+  //       model: sequelize.models.Person,
+  //       include: [{ model: sequelize.models.City }],
+  //     });
+  //     return context;
+  //   },
+  // },
+      // {
+      //   trigger: 'index-before',
+      //   fn({ context, name, value }) {
+      //     context.attributes = context.attributes || [];
+      //     context.attributes.push('name');
+      //   },
+      // },
+      // {
+      //   trigger: 'filter',
+      //   match: 'x',
+      //   fn({ context, name, value }) {
+      //     console.log('zzzzzzzzzzzzz', name, value);
+      //   },
+      // },
+      // {
+      //   trigger: 'index-before',
+      //   fn({ context, name, value }) {
+      //     console.log('xxxxxxxxxxxxxxx index-before', JSON.stringify(context));
+      //   },
+      // },
+      // {
+      //   trigger: 'index-after',
+      //   fn({ context, name, value }) {
+      //     console.log('xxxxxxxxxxxxxxx index-after', JSON.stringify(context));
+      //     context.size = context.count;
+      //     context.data = context.rows;
+      //     delete context.rows;
+      //     delete context.count;
+      //   },
+      // },  
+],
