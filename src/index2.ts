@@ -2,7 +2,7 @@ import * as express from 'express';
 import * as bodyParser from 'body-parser';
 import { graphqlHTTP } from 'express-graphql';
 
-import { SharkApi, ServerGraphQl, SequelizeEntity } from 'sharkapi';
+import { SharkApi, ServerGraphQL, SequelizeEntity } from 'sharkapi';
 import { Sequelize, DataTypes, Op } from 'sequelize';
 import * as graphql from 'graphql';
 import * as graphqlIsoDate from 'graphql-iso-date';
@@ -23,9 +23,13 @@ async function startSequelize() {
 
     let City = sequelize.define('City', { name: DataTypes.STRING }, { underscored: true });
     let Person = sequelize.define('Person', { name: DataTypes.STRING, age: DataTypes.INTEGER }, { underscored: true });
+    let Car = sequelize.define('Car', { name: DataTypes.STRING }, { underscored: true });
 
     Person.belongsTo(City);
     City.hasMany(Person);
+
+    Car.belongsTo(Person);
+    Person.hasMany(Car);
   } catch (error) {
     console.log(error);
   }
@@ -43,9 +47,10 @@ async function startExpress() {
 
 async function startSharkApi() {
   let sharkApi = new SharkApi();
-  new ServerGraphQl(sharkApi, graphql, graphqlIsoDate);
+  new ServerGraphQL(sharkApi, { graphql, graphqlIsoDate });
   new SequelizeEntity(sharkApi, sequelize.models.City);
   new SequelizeEntity(sharkApi, sequelize.models.Person);
+  new SequelizeEntity(sharkApi, sequelize.models.Car);
 
   let schema = sharkApi.server.createResources();
 
