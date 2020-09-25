@@ -155,15 +155,25 @@ describe('restapi', () => {
     test('index countries with sort', async () => {
       let res;
       res = await axios.get(`${url}/countries?sort=-id`);
+      expect(res.data.totalCount).toBe(3);
       expect(res.data.data).toHaveLength(3);
       expect(res.data.data[0].name).toBe('Italy');
       expect(res.data.data[1].name).toBe('Germany');
       expect(res.data.data[2].name).toBe('USA - Updated');
     });
 
+    test('index countries with filter/hook', async () => {
+      let res;
+      res = await axios.get(`${url}/countries?filter[name_like]=Updated`);
+      expect(res.data.totalCount).toBe(1);
+      expect(res.data.data).toHaveLength(1);
+      expect(res.data.data[0].name).toBe('USA - Updated');
+    });
+
     test('index cities with sort', async () => {
       let res;
       res = await axios.get(`${url}/cities?sort=name`);
+      expect(res.data.totalCount).toBe(3);
       expect(res.data.data).toHaveLength(3);
       expect(res.data.data[0].name).toBe('Munich');
       expect(res.data.data[0].CountryId).toBe(2);
@@ -173,9 +183,28 @@ describe('restapi', () => {
       expect(res.data.data[2].CountryId).toBe(3);
     });
 
+    test('index cities with sort/hook', async () => {
+      let res;
+      res = await axios.get(`${url}/cities?sort=country_name`);
+      expect(res.data.totalCount).toBe(3);
+      expect(res.data.data).toHaveLength(3);
+      expect(res.data.data[0].name).toBe('Munich');
+      expect(res.data.data[0].CountryId).toBe(2);
+      expect(res.data.data[0].Country.name).toBe('Germany');
+
+      expect(res.data.data[1].name).toBe('Roma');
+      expect(res.data.data[1].CountryId).toBe(3);
+      expect(res.data.data[1].Country.name).toBe('Italy');
+
+      expect(res.data.data[2].name).toBe('New York - Updated');
+      expect(res.data.data[2].CountryId).toBe(1);
+      expect(res.data.data[2].Country.name).toBe('USA - Updated');
+    });
+
     test('index people with sort', async () => {
       let res;
       res = await axios.get(`${url}/people?sort=id`);
+      expect(res.data.totalCount).toBe(3);
       expect(res.data.data).toHaveLength(3);
       expect(res.data.data[0].name).toBe('Gabriel');
       expect(res.data.data[0].CityId).toBe(1);
@@ -188,6 +217,7 @@ describe('restapi', () => {
     test('index people with sort and filter', async () => {
       let res;
       res = await axios.get(`${url}/people?filter[CityId]=2&sort=-id`);
+      expect(res.data.totalCount).toBe(2);
       expect(res.data.data).toHaveLength(2);
       expect(res.data.data[0].name).toBe('Paul - Updated');
       expect(res.data.data[0].CityId).toBe(2);
@@ -198,6 +228,7 @@ describe('restapi', () => {
     test('index brands with sort', async () => {
       let res;
       res = await axios.get(`${url}/brands?sort=-name`);
+      expect(res.data.totalCount).toBe(3);
       expect(res.data.data).toHaveLength(3);
       expect(res.data.data[0].name).toBe('Volkswagen - Updated');
       expect(res.data.data[0].CountryId).toBe(2);
@@ -210,6 +241,7 @@ describe('restapi', () => {
     test('index cars with sort', async () => {
       let res;
       res = await axios.get(`${url}/cars?sort=id`);
+      expect(res.data.totalCount).toBe(2);
       expect(res.data.data).toHaveLength(2);
       expect(res.data.data[0].name).toBe('Passat - Updated');
       expect(res.data.data[0].PersonId).toBe(1);
@@ -223,6 +255,7 @@ describe('restapi', () => {
     test('index cars with filter', async () => {
       let res;
       res = await axios.get(`${url}/cars?filter[name]=F-500`);
+      expect(res.data.totalCount).toBe(1);
       expect(res.data.data).toHaveLength(1);
       expect(res.data.data[0].name).toBe('F-500');
       expect(res.data.data[0].PersonId).toBe(2);
@@ -232,6 +265,7 @@ describe('restapi', () => {
     test('index cars with filter and relationship', async () => {
       let res;
       res = await axios.get(`${url}/cars?filter[name]=F-500&include=person.city.country,brand.country`);
+      expect(res.data.totalCount).toBe(1);
       expect(res.data.data).toHaveLength(1);
       expect(res.data.data[0].name).toBe('F-500');
       expect(res.data.data[0].PersonId).toBe(2);
@@ -250,6 +284,7 @@ describe('restapi', () => {
       let res;
       res = await axios.get(`${url}/tyres?sort=id`);
 
+      expect(res.data.totalCount).toBe(4);
       expect(res.data.data).toHaveLength(4);
 
       expect(res.data.data[0].name).toBe('front right - Updated');
@@ -273,6 +308,7 @@ describe('restapi', () => {
       let res;
       res = await axios.get(`${url}/tyres?sort=id&page[limit]=1&page[offset]=1`);
 
+      expect(res.data.totalCount).toBe(4);
       expect(res.data.data).toHaveLength(1);
 
       expect(res.data.data[0].name).toBe('front left');
@@ -284,12 +320,28 @@ describe('restapi', () => {
       let res;
       res = await axios.get(`${url}/tyres?sort=id&page[limit]=1&page[offset]=1&include=car`);
 
+      expect(res.data.totalCount).toBe(4);
       expect(res.data.data).toHaveLength(1);
 
       expect(res.data.data[0].name).toBe('front left');
       expect(res.data.data[0].BrandId).toBe(1);
       expect(res.data.data[0].CarId).toBe(1);
       expect(res.data.data[0].Car.name).toBe('Passat - Updated');
+    });
+
+    test('index tyres with relationship/hook', async () => {
+      let res;
+      res = await axios.get(`${url}/tyres?filter[id]=1&include=country`);
+
+      expect(res.data.totalCount).toBe(1);
+      expect(res.data.data).toHaveLength(1);
+
+      expect(res.data.data[0].name).toBe('front right - Updated');
+      expect(res.data.data[0].CarId).toBe(1);
+      expect(res.data.data[0].BrandId).toBe(1);
+      expect(res.data.data[0].Brand.name).toBe('Goodyear');
+      expect(res.data.data[0].Brand.CountryId).toBe(1);
+      expect(res.data.data[0].Brand.Country.name).toBe('USA - Updated');
     });
   });
 

@@ -1,4 +1,5 @@
 import { Sequelize } from 'sequelize';
+export { Op } from 'sequelize';
 
 export let sequelize;
 

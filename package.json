@@ -6,7 +6,8 @@
   "scripts": {
     "rest": "nodemon --ext js,ts --watch src --watch ../sharkapi/dist --exec ts-node src/restapi/index.ts",
     "graph": "nodemon --ext js,ts --watch src --watch ../sharkapi/dist --exec ts-node src/graphql/index.ts",
-    "test": "jest --runInBand"
+    "test-rest": "jest __tests__/restapi/restapi.test.ts --runInBand",
+    "test-graph": "jest __tests__/graphql/graphql.test.ts --runInBand"
   },
   "keywords": [],
   "author": "",
