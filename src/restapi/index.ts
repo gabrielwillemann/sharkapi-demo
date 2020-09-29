@@ -4,6 +4,6 @@ import { startSharkAPI } from './sharkapi';
 
 (async () => {
   await startSequelize();
-  await startExpress();
+  startExpress();
   startSharkAPI();
 })();

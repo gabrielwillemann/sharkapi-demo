@@ -3,7 +3,7 @@ import * as bodyParser from 'body-parser';
 
 export let app;
 
-export async function startExpress() {
+export function startExpress() {
   app = express();
   app.use(bodyParser.json());
 
