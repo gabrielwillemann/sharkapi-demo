@@ -21,7 +21,7 @@
     "graphql": "^15.3.0",
     "graphql-iso-date": "^3.6.1",
     "sequelize": "^6.3.4",
-    "sharkapi": "file:../sharkapi",
+    "sharkapi": "^0.1.2",
     "sqlite3": "^5.0.0"
   },
   "devDependencies": {
